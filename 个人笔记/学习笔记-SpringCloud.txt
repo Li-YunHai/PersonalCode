@@ -1,0 +1,466 @@
+面试必备：
+1、什么是微服务？
+	微服务架构是一种架构模式或者说是一种架构风格，他提倡将单一的应用程序划分成一组小的服务，每个服务运行
+          在其独立的自己的进程中，服务之间互相协调、互相配合，为用户提供最终价值。服务之间采用轻量级的通讯机制互相
+          沟通（通常是基于HTTP的RestFul API）。每个服务都围绕着具体的业务场景进行构建，并且能够被独立部署在生产环
+          境、类生产环境等。另外，应尽量避免统一的、集中式的服务管理机制，对具体的一个服务而言，应根据业务上下文，
+          选择合适的语言、工具对其进行构建，可以有一个非常轻量级的集中式管理来协调这些服务，可以使用不同的语言来编
+          写服务，也可以使用不同的数据存储。
+	微服务的核心就是将传统的一站式应用，根据业务拆分成一个一个的服务，彻底地去耦合，每一个微服务都提供单
+          个业务功能的服务，一个服务做一件事，从技术角度看就是一种小而独立的处理过程，类似进程概念，能够自己单独启
+          动或销毁，拥有自己独立的数据库。
+         
+	微服务的优点：
+		1、每个服务充分内聚，能聚焦一个指定的业务功能或业务需求，功能简介、容易理解。	
+		2、一个服务可能就只专注于一个具体的业务，功能划分明确、开发简单、开发效率提高，也方便后期维护。
+		3、微服务是松耦合的，无论是开发阶段还是部署阶段都是独立的。
+		4、微服务能使用不同的语言进行开发，易于与第三方集成。
+		5、微服务只有业务逻辑的代码，不会和HTML、CSS或其他界面组件混合。
+	微服务的缺点：
+		1、随着微服务数量的增加、分布式系统复杂、服务与服务之间的通信成本增加。
+		2、一个具体的应用程序可能涉及到多个微服务，部署、运维、监控成本增加。
+		3、系统部署依赖较强。
+		4、数据一致性。
+
+2、微服务技术栈有哪些？
+	服务的开发：Spring、SpringBoot、SpringMVC
+	服务的配置与管理：Netflix公司的Archaius、阿里的Diamond等
+	服务的注册与发现：Eureka、Zookeeper、Consulden
+	服务的调用：Rest、RPC、gRPC
+	服务熔断器：Hystrix、Enovy等
+	服务的负载均衡：Ribbon、Nginx等
+	服务接口调用：Feign等
+	消费队列：Kafka、RabbitMQ、ActiveMQ等
+	服务配置中心：SpringCloudConfig、Chef、Appolo等
+	服务路由（API网关）：Zuul等
+	服务的监控：Zabbix、Nagios、Metrics、Spectator等
+	全链路追踪：Zipkin、Brave、Dapper等
+	服务部署：Docker、OpenStack、Kubernetes等
+	数据流操作开发包：SpringCloud Stream（封装与Redis、Rabbit、Kafka等发送接收消息）
+	事件消息总线：SpringCloud Bus
+
+3、服务框架选型依据
+	整体解决方案、框架成熟度、社区热度、可维护性、学习曲线
+
+2、微服务之间是如何独立通讯的？
+
+3、SpringCloud和Dubbo有哪些区别？
+	Dubbo是基于RPC远程过程调用，
+	SpringCloud微服务是基于HTTP的RestFul API调用
+
+4、SpringBoot和SpringCloud，请你谈谈对他们的理解
+	SpringBoot专注于快速方便的开发单个个体微服务。
+	SpringCloud关注于全局的微服务协调管理的框架，它将SpringBoot开发的一个个单体微服务整合并管理起来，为各个微服务之间提供了一整套
+          的集成服务，包括配置管理、服务发现、断路器、路由、微代理、事件总线、全局锁、决策竞选、分布式会话等等。
+	SpringCould基于SpringBoot提供了一套微服务解决方案，包括服务注册与发现、配置中心、全链路监控、服务网关、负载均衡、熔断器等组件
+          除了基于NetFlix的开源组件做高度抽象封装之外，还有一些选型中立的开源组件。
+	SpringCould利用SpringBoot的开发便利性，巧妙地简化了分布式系统基础设施的开发，SpringCloud为开发人员提供了快速构建分布式系统的
+          一些工具，包括配置管理、服务发现、断路器、路由、微代理、事件总线、全局锁、决策竞选、分布式会话等等，他们都可以用SpringBoot的开发
+          风格做到一键启动和部署。
+	SpringBoot可以离开SpringCloud单独使用开发项目，但是SpringCould离不开SpringBoot，属于依赖关系。
+
+5、什么是服务熔断、什么是服务降级？
+
+6、微服务的优缺点分别是什么？说下你在项目开发中碰到的坑
+
+7、你说知道的微服务技术栈有哪些？请列举一二
+
+8、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
+	Netflix在设计Eureka时遵循的就是AP原则。Zookeeper在遵循的是CP原则。Nacos 支持AP和CP模式的切换。
+	C是所有节点在同一时间看到的数据是一致的；而A的定义是所有的请求都会收到响应。
+	
+	Zookeeper保证CP：
+		当向注册中心查询服务列表时，我们可以容忍注册中心返回的是几分钟以前的注册信息，但不能接受服务直接down掉不可用。也
+	          也就是说，服务注册功能对可用性的要求要高于一致性。但是ZK会出现一种情况，当master节点因为网络故障或其他节点失去联系时，
+	          剩余节点会重新进行leader选举。问题在于leader选举的时间太长，30s~120s，且选举期间整个ZK集群是不可用的，这就会导致在选
+	          举leader期间注册服务瘫痪。在云部署环境下，因网络问题使得使得ZK集群失去master节点是较大概率会发生的事，虽然服务能够最
+	          终恢复，但是漫长的选举时间导致的注册长期不可用是不能容忍的。
+	
+	Eureka保证AP：
+		Eureka各个节点都是平等的，几个节点挂掉不会影响正常节点的工作，剩余的节点依然可以提供注册和查询服务。而Eureka的客户
+	          端在向某个Eureka注册时，如果发现连接是失败，则会自动切换至其他节点，只要有一台Eureka还在，就能保证注册服务可用（保证可
+	          用性），只不过查到的服务信息可能不是最新的（不保证强一致性）。除此之外，Eureka还有一种自我保护机制，如果在15分钟之内超
+	          过85%的节点都没有心跳，那么Eureka就会认为客户端与注册中心出现了网络故障，此时会出现以下几种情况：
+		1、Eureka不再从注册表中移除因长时间没有心跳而应该过期的服务
+		2、Eureka任然能够接受新服务的注册和查询，但是不会被同步到其他节点上（即保证当前节点依然可用）
+		3、当网络稳定时，当前实例新的注册信息会被同步到其他节点中
+		因此Eureka可以很好的应对因网络故障导致部分节点失去联系的情况，而不会像Zookeeper那样使整个注册服务瘫痪。
+	
+	Nacos 支持AP和CP模式的切换：
+		如果不需要存储服务级别的信息且服务实例是通过nacos-client注册，并能够保持心跳上报，那么就可以选择AP模式。当前主流的
+	          服务如 Spring cloud 和 Dubbo 服务，都适用于AP模式，AP模式为了服务的可能性而减弱了一致性，因此AP模式下只支持注册临时实例。
+		如果需要在服务级别编辑或者存储配置信息，那么 CP 是必须，K8S服务和DNS服务则适用于CP模式。CP模式下则支持注册持久化实例，
+	          此时则是以 Raft 协议为集群运行模式，该模式下注册实例之前必须先注册服务，如果服务不存在，则会返回错误。
+
+Eureka是什么？
+	Eureka是Netflix的一个子模块，也是核心模块之一。Eureka是一个基于REST的服务，用于定位服务，以实现云端中间层服务发现和故障转移。
+          服务注册与发现对于微服务架构来说是非常重要的，有了服务发现与注册，只需要使用服务的标识符，就可以访问到服务，而不需要修改服务调用
+          的配置文件了。功能类似于dubbo的注册中心，比如Zookeeper。Eureka 采用了 C-S 的设计架构。Eureka Server 作为服务注册功能的服务器，
+          它是服务注册中心。
+	系统中的其他微服务，使用 Eureka 的客户端连接到 Eureka Server并维持心跳连接。这样系统的维护人员就可以通过 Eureka Server 来监控
+          系统中各个微服务是否正常运行。SpringCloud 的一些其他模块（比如Zuul）就可以通过 Eureka Server 来发现系统中的其他微服务，并执行相关的逻辑。
+	
+
+Eureka包含两个组件：Eureka Server和Eureka Client
+	Eureka Server提供服务注册服务：各个节点启动后，会在EurekaServer中进行注册，这样EurekaServer中的服务注册表中将会存储
+          所有可用服务节点的信息，服务节点的信息可以在界面中直观的看到
+ 	EurekaClient是一个Java客户端，用于简化Eureka Server的交互，客户端同时也具备一个内置的、使用轮询(round-robin)负载算法
+          的负载均衡器。在应用启动后，将会向Eureka Server发送心跳(默认周期为30秒)。如果Eureka Server在多个心跳周期内没有接收到某个节
+          点的心跳，EurekaServer将会从服务注册表中把这个服务节点移除（默认90秒）
+
+Eureka自我保护机制
+	默认情况下，如果EurekaServer在一定时间内没有接收到某个微服务实例的心跳，EurekaServer将会注销该实例（默认90秒）。但是当网络分区
+          故障发生时，微服务与EurekaServer之间无法正常通信，以上行为可能变得非常危险了——因为微服务本身其实是健康的，此时本不应该注销这个微
+          服务。Eureka通过“自我保护模式”来解决这个问题——当EurekaServer节点在短时间内丢失过多客户端时（可能发生了网络分区故障），那么这个
+          节点就会进入自我保护模式。一旦进入该模式，EurekaServer就会保护服务注册表中的信息，不再删除服务注册表中的数据（也就是不会注销任何微
+          服务）。当网络故障恢复后，该Eureka Server节点会自动退出自我保护模式。
+	在自我保护模式中，Eureka Server会保护服务注册表中的信息，不再注销任何服务实例。当它收到的心跳数重新恢复到阈值以上时，该Eureka 
+          Server节点就会自动退出自我保护模式。它的设计哲学就是宁可保留错误的服务注册信息，也不盲目注销任何可能健康的服务实例。一句话讲解：
+          好死不如赖活着
+	综上，自我保护模式是一种应对网络异常的安全保护措施。它的架构哲学是宁可同时保留所有微服务（健康的微服务和不健康的微服务都会保留），
+          也不盲目注销任何健康的微服务。使用自我保护模式，可以让Eureka集群更加的健壮、稳定。
+
+RestTemplate是什么？
+	RestTemplate提供了多种便捷访问远程Http服务的方法，是一种简单便捷的访问restful服务模板类，是Spring提供的用于访问Rest服务的客户端模板工具集
+
+Ribbon负载均衡：
+	Ribbon是基于Netflix Ribbon实现的一套客户端负载均衡的工具。
+ 	简单的说，Ribbon是Netflix发布的开源项目，主要功能是提供客户端的软件负载均衡算法，将Netflix的中间层服务连接在一起。Ribbon客户端
+          组件提供一系列完善的配置项如连接超时，重试等。简单的说，就是在配置文件中列出Load Balancer（简称LB）后面所有的机器，Ribbon会自动的
+          帮助你基于某种规则（如简单轮询，随机连接等）去连接这些机器。我们也很容易使用Ribbon实现自定义的负载均衡算法。
+
+集中式负载均衡：
+ 	即在服务的消费方和提供方之间使用独立的负载均衡设施(可以是硬件，如F5, 也可以是软件，如nginx), 由该设施负责把访问请求通过某种策略转
+          发至服务的提供方；
+
+进程内负载均衡：
+ 	将负载均衡逻辑集成到消费方，消费方从服务注册中心获知有哪些地址可用，然后自己再从这些地址中选择出一个合适的服务器。Ribbon就属于
+          进程内负载均衡，它只是一个类库，集成于消费方进程，消费方通过它来获取到服务提供方的地址。
+
+zookeeper集群：
+	zookeeper集群搭建通常是由2n+1台服务器组成，这是为了保证Leader选举（基于Paxos算法的实现）能通过半数以上台服务器选举支持，因此zookeeper集群
+          的数量一般是奇数台。
+
+zookeeper节点：临时节点、带序号的临时节点、持久节点、带序号的持久节点。微服务注册时默认使用临时节点。
+
+Consul是什么：
+	Consul是一套开源的分布式服务发现和配置管理系统，由HashiCorp公司用Go语言开发的。Consul提供了微服务系统中的服务治理、配置中心、控制总线等功能。
+          这些功能中的每一个都可以根据需要单独使用，也可以一起使用以构建全方位的服务网格，总之Consul提供了一种完整的服务网格解决方案。
+
+Consul的优点：
+	1、基于Raft协议，比较简洁；
+	2、支持健康检查，同事支持HTTP和DNS协议，
+	3、支持跨数据中心的WAN集群，
+	4、跨平台，支持Linux、Mac、Windows
+	5、提供图形化界面
+
+SpringCloud Gateway ：
+	Gateway 使用的Webflux中的reactor-netty响应式编程组件，底层使用了Netty通讯框架。
+	SpringCloud Gateway 是 Spring Cloud 的一个全新项目，基于 Spring 5.0+Spring Boot 2.0 和 Project Reactor 等技术开发的网关，它旨在为微服务架构提供一种
+          简单有效的统一的 API 路由管理方式。SpringCloud Gateway是基于WebFlux框架实现的，而WebFlux框架底层则使用了高性能的Reactor模式通信框架Netty。
+	Spring Cloud Gateway的目标提供统一的路由方式且基于 Filter 链的方式提供了网关基本的功能，例如：安全，监控/指标，和限流。
+
+SpringCloud Gateway 与 Zuul的区别：
+	Zuul 1.x 基于Servlet 2. 5使用阻塞架构它不支持任何长连接(如 WebSocket) Zuul 的设计模式和Nginx较像，每次 I/ O 操作都是从工作线程中选择一个执行，
+          请求线程被阻塞到工作线程完成，但是差别是Nginx 用C++ 实现，Zuul 用 Java 实现，而 JVM 本身会有第一次加载较慢的情况，使得Zuul 的性能相对较差。
+	Spring Cloud Gateway 建立 在 Spring Framework 5、Project Reactor 和 Spring Boot 2 之上，使用非阻塞 API。Spring Cloud Gateway 还 支持 WebSocket，
+          并且与Spring紧密集成拥有更好的开发体验
+
+Spring Cloud Bus：
+	Spring Cloud Bus是用来将分布式系统的节点与轻量级消息系统链接起来的框架，它整合了Java的事件处理机制和消息中间件的功能。Spring Clud Bus目前支持RabbitMQ和Kafka。
+
+什么是总线：
+	在微服务架构的系统中，通常会使用轻量级的消息代理来构建一个共用的消息主题，并让系统中所有微服务实例都连接上来。由于该主题中产生的消息会被所有实例监听和消费，
+          所以称它为消息总线。在总线上的各个实例，都可以方便地广播一些需要让其他连接在该主题上的实例都知道的消息。
+
+什么是SpringCloudStream：
+	官方定义 Spring Cloud Stream 是一个构建消息驱动微服务的框架。应用程序通过 inputs 或者 outputs 来与 Spring Cloud Stream中binder对象交互。通过我们配置来binding(绑定) ，
+          Spring Cloud Stream 的 binder对象负责与消息中间件交互。我们只需要搞清楚如何与 Spring Cloud Stream 交互就可以方便使用消息驱动的方式。通过使用Spring Integration来连接消息
+          代理中间件以实现消息事件驱动。
+	Spring Cloud Stream 为一些供应商的消息中间件产品提供了个性化的自动化配置实现，引用了发布-订阅、消费组、分区的三个核心概念。目前仅支持RabbitMQ、Kafka。
+
+Spring Cloud Stream标准流程套路：
+	Binder：很方便的连接中间件，屏蔽差异
+	Channel：通道，是队列Queue的一种抽象，在消息通讯系统中就是实现存储和转发的媒介，通过Channel对队列进行配置
+	Source和Sink：简单的可理解为参照对象是Spring Cloud Stream自身，从Stream发布消息就是输出，接受消息就是输入。
+
+
+SpringCloud alibaba：
+          服务限流降级：默认支持 Servlet、Feign、RestTemplate、Dubbo 和 RocketMQ 限流降级功能的接入，可以在运行时通过控制台实时修改限流降级规则，还支持查看限流降级 Metrics 监控。
+          服务注册与发现：适配 Spring Cloud 服务注册与发现标准，默认集成了 Ribbon 的支持。
+          分布式配置管理：支持分布式系统中的外部化配置，配置更改时自动刷新。
+          消息驱动能力：基于 Spring Cloud Stream 为微服务应用构建消息驱动能力。
+          阿里云对象存储：阿里云提供的海量、安全、低成本、高可靠的云存储服务。支持在任何应用、任何时间、任何地点存储和访问任意类型的数据。
+          分布式任务调度：提供秒级、精准、高可靠、高可用的定时（基于 Cron 表达式）任务调度服务。同时提供分布式的任务执行模型，如网格任务。网格任务支持海量子任务均匀分配到所有 Worker（schedulerx-client）上执行。
+
+
+Nacos：Naming And Configuration Service
+          一个更易于构建云原生应用的动态服务发现、配置管理和服务管理平台。Nacos就是注册中心 + 配置中心的组合
+
+Sentinel流控规则：
+	资源名：唯一名称，默认请求路径。
+	针对来源：Sentinel可以针对调用者进行限流，填写微服务名，默认default（不区分来源）。
+	阈值类型/单机阈值：
+		（1）QPS(每秒钟的请求数量)︰当调用该API的QPS达到阈值的时候，进行限流。
+		（2）线程数：当调用该API的线程数达到阈值的时候，进行限流。
+	是否集群：不需要集群。
+	流控模式：
+		（1）直接：API达到限流条件时，直接限流。
+		（2）关联：当关联的资源达到阈值时，就限流自己。
+		（3）链路：只记录指定链路上的流量（指定资源从入口资源进来的流量，如果达到阈值，就进行限流)【API级别的针对来源】。
+	流控效果：
+		（1）快速失败：直接失败，抛异常。
+		（2）Warm up：根据Code Factor（冷加载因子，默认3）的值，从阈值/codeFactor，经过预热时长，才达到设置的QPS阈值。
+		（3）排队等待：匀速排队，让请求以匀速的速度通过，阈值类型必须设置为QPS，否则无效。
+
+流控规则持久化配置项说明：
+	resource：资源名
+	limitApp：针对来源，若为 default 则不区分调用来源
+	grade：阈值类型，0表示线程数，1表示QPS
+	count：单机阈值
+	strategy：流控模式，0表示直接，1表示关联，2表示链路
+	controlBehavior：流控效果，0表示快速失败，1表示Warm Up，2表示排队等待
+	clusterMode：是否集群
+
+
+Sentinel主要有三个核心Api：
+	1、SphU定义资源
+	2、Tracer定义统计
+	3、ContextUtil定义了上下文
+
+Sentinel降级规则：
+	1、RT（平均响应时间，秒级）：
+      		平均响应时间   超出阈值  且   在时间窗口内通过的请求>=5，两个条件同时满足后触发降级，窗口期过后关闭断路器
+      		RT最大4900（更大的需要通过-Dcsp.sentinel.statistic.max.rt=XXXX才能生效） 
+	2、异常比列（秒级）：
+    		QPS >= 5 且异常比例（秒级统计）超过阈值时，触发降级；时间窗口结束后，关闭降级
+	3、异常数（分钟级）：
+     		异常数（分钟统计）超过阈值时，触发降级；时间窗口结束后，关闭降级
+
+Seata是什么？
+	Seata是一款开源的分布式事务解决方案，致力于在微服务架构下提供高性能和简单易用的分布式事务服务。
+
+Seata分布式事务结构：一个ID+三个组件模型
+	1、Transaction ID XID：全局事务ID
+	2、Transaction Coordinator (TC)：事务协调器，维护全局事务的运行状态，负责协调并驱动全局事务的提交或回滚；
+	3、Transaction Manager (TM)：控制全局事务的边界，负责开启一个全局事务，并最终发起全局提交或全局回滚的决议；
+	4、Resource Manager (RM)：控制分支事务，负责分支注册、状态汇报，并接收事务协调器的指令，驱动分支（本地）事务的提交和回滚
+
+Seata分布式事务的执行流程：
+	1、TM 开启分布式事务（TM 向 TC 注册全局事务记录，全局事务创建成功并生成一个全局唯一的 XID）；
+	2、按业务场景，编排数据库、服务等事务内资源（RM 向 TC 汇报资源准备状态，XID 在微服务调用链路的上下文中传播）；
+	3、TM 结束分布式事务，事务一阶段结束（TM 通知 TC 提交/回滚分布式事务）；
+	4、TC 汇总事务信息，决定分布式事务是提交还是回滚；
+	5、TC 通知所有 RM 提交/回滚 资源，事务二阶段结束。​
+
+Seata分布式事务AT模式：
+	一阶段加载：在一阶段，Seata 会拦截“业务 SQL”，
+		1、解析 SQL 语义，找到“业务 SQL”要更新的业务数据，在业务数据被更新前，将其保存成“before image”，
+		2、执行“业务 SQL”更新业务数据，在业务数据更新之后，
+		3、其保存成“after image”，最后生成行锁。
+		以上操作全部在一个数据库事务内完成，这样保证了一阶段操作的原子性。
+	二阶段提交：二阶段如果顺利提交的话，因为“业务 SQL”在一阶段已经提交至数据库，Seata框架只需将一阶段保存的快照数据和行锁删掉，完成数据清理即可。
+	二阶段回滚：二阶段如果是回滚的话，Seata 就需要回滚一阶段已经执行的“业务 SQL”，还原业务数据。回滚方式便是用“before image”还原业务数据；
+		   但在还原前要首先要校验脏写，对比“数据库当前业务数据”和 “after image”，如果两份数据完全一致就说明没有脏写，可以还原业务数据，如果不一致就说明有脏写，出现脏写就需要转人工处理。
+
+
+
+Dubbo四种路由规则：条件路由、脚本路由、文件路由和标签路由
+
+Dubbo负载均衡：
+	Random LoadBalance：随机，按权重设置随机概率。在一个截面上碰撞的概率高，但调用量越大分布越均匀，而且按概率使用权重后也比较均匀，有利于动态调整提供者权重。
+	RoundRobin LoadBalance：轮循，按公约后的权重设置轮循比率。存在慢的提供者累积请求的问题，比如：第二台机器很慢，但没挂，当请求调到第二台时就卡在那，久而久之，所有请求都卡在调到第二台上。
+	LeastActive LoadBalance：最少活跃调用数，相同活跃数的随机，活跃数指调用前后计数差。使慢的提供者收到更少请求，因为越慢的提供者的调用前后计数差会越大。
+	ConsistentHash LoadBalance：一致性 Hash，相同参数的请求总是发到同一提供者。当某一台提供者挂时，原本发往该提供者的请求，基于虚拟节点，平摊到其它提供者，不会引起剧烈变动。
+
+Dubbo集群容错(重试机制)：
+	Failover Cluster(默认)：失败自动切换，当出现失败，重试其它服务器 [1]。通常用于读操作，但重试会带来更长延迟。可通过 retries="2" 来设置重试次数(不含第一次)。
+	Failfast Cluster： 快速失败，只发起一次调用，失败立即报错。通常用于非幂等性的写操作，比如新增记录。
+	Failsafe Cluster：失败安全，出现异常时，直接忽略。通常用于写入审计日志等操作。
+	Failback Cluster：失败自动恢复，后台记录失败请求，定时重发。通常用于消息通知操作。
+	Forking Cluster：并行调用多个服务器，只要一个成功即返回。通常用于实时性要求较高的读操作，但需要浪费更多服务资源。可通过 forks="2" 来设置最大并行数。
+	Broadcast Cluster：广播调用所有提供者，逐个调用，任意一台报错则报错 [2]。通常用于通知所有提供者更新缓存或日志等本地资源信息。
+
+Dubbo服务注册的过程：
+	1、首先在DubboNamespaceHandler.init(）方法中的通过DubboBeanDefinitionPaeser解析dubbo标签，其中ServiceBean对应服务提供者，ReferenceBean对应服务消费者。
+	2、其中ServiceBean实现了Spring的InitializingBean、ApplicationLisener接口，继承了ServiceConfig类. 
+		a、InitializingBean.afterPropertySet()方法在对象创建完之后保存dubbo配置的服务信息
+		b、ApplicationLisener.onApplicationEvent()在容器启动之后调用export() -> ServiceConfig.doExport() ->ServiceConfig.doExportUrl() 方法暴露服务
+	3、ServiceConfig.doExportUrl（）中：获取注册中心的URL信息，通过proxyFactory生成代理类invoker
+	4、在ServiceConfig中通过protocol.export方法将invoker转换成Exporter，并将Exporter加入到容器中。
+		a、RegisterProtocol.export将服务信息注册到注册中心，并将本地服务、注册中心URL、注册中心中注册服务的URL 加入到注册表中。
+		b、DubboProtocol.export首先将invoker转换成Exporter，然后建立信息交换服务器ExchangeServer，ExchangeServer.bind()-Transporters.bind()->创建Netty服务器
+
+Dubbo服务发现的过程：
+	1、首先DubboNamespaceHandler.init(）方法中的通过DubboBeanDefinitionPaeser解析dubbo标签，其中ServiceBean对应服务提供者，ReferenceBean对应服务消费者。
+	2、其中ReferenceBean在通过调用父类ReferenceConfig.init()方法中通过createProxy方法创建服务提供者的代理类. 
+	3、ReferenceConfig.createProxy()中通过refprotocol.refer()方法获取远程服务的代理对象invoker 
+		a、RegisterProtocol.doRefer从注册中心中订阅服务提供者provider并获取相关服务信息，调用DubboProtocol.refer()方法
+		b、DubboProtocol.refer()根据服务提供者相关信息构建ExchangeClient客户端，ExchangeClient通过connect方法在底层建立netty连接。
+
+Dubbo服务的调用过程：
+	消费者获取到服务提供者的代理对象invoker后，invoker.invoker() -> MockClusterInvoker.invoker() -> 集群容错， 如：FailOverInvoker.invoker() -> 各种Filter后进入DubboFilter.doInvoker
+	细节：
+		1、MockClusterInvoker获取服务的方法信息、参数信息、地址信息等
+		2、FailOverInvoker从注册中心中找到所有匹配的Invoker，获取服务的负载均衡机制，根据负载均衡策略选中实际执行的Invoker
+		3、DubboFilter中根据服务提供者代理对象中建立的netty连接，通过Channel通道向服务器端发送request请求
+
+SpringAop原理：
+	1、@EnableAspectJAutoProxy
+		1、@EnableAspectJAutoProxy 通过@Import(AspectJAutoProxyRegistrar.class)给spring容器中导入了一个AnnotationAwareAspectJAutoProxyCreator。
+		2、AnnotationAwareAspectJAutoProxyCreator实现了InstantiationAwareBeanPostProcessor,InstantiationAwareBeanPostProcessor是一个BeanPostProcessor。
+		它可以拦截spring的Bean初始化(Initialization)前后和实例化(Initialization)前后。
+	2、AnnotationAwareAspectJAutoProxyCreator的postProcessBeforeInstantiation(bean实例化前)：会通过调用isInfrastructureClass(beanClass)来判断
+	被拦截的类是否是基础类型的Advice、PointCut、Advisor、AopInfrastructureBean，或者是否是切面（@Aspect），若是则放入adviseBean集合。这里主要是用来处理我们的切面类。
+	3、AnnotationAwareAspectJAutoProxyCreator的beanPostProcessorsAfterInitialization（bean初始化后）：
+		1、首先找到被拦截的Bean匹配的增强器（通知方法），这里有切入点表达式匹配的逻辑
+		2、将增强器保存到proxyFactory中，
+		3、根据被拦截的Bean是否实现了接口，spring自动决定使用JdkDynamicAopProxy还是ObjenesisCglibAopProxy
+		4、最后返回被拦截的Bean的代理对象，注册到spring容器中
+	4、代理Bean的目标方法执行过程：CglibAopProxy.intercept();
+		1、保存所有的增强器（通知方法），并处理转换为一个拦截器链
+		2、如果没有拦截器链，就直接执行目标方法
+		3、如果有拦截器链，就将目标方法，拦截器链等信息传入并创建CglibMethodInvocation对象，并调用proceed()方法获取返回值。proceed方法内部会依次执行拦截器链。
+
+mybatis运行原理：
+	1.通过加载mybatis全局配置文件以及mapper映射文件初始化configuration对象和Executor对象（通过全局配置文件中的defaultExecutorType初始化）；
+	2.创建一个defaultSqlSession对象，将configuration对象和Executor对象注入给 defaulSqlSession对象中；
+	3.defaulSqlSession通过getMapper()获取mapper接口的代理对象mapperProxy（mapperProxy中包含defaultSQLSession对象）
+	4.执行增删改查：
+    		1）通过defaulSqlSession中的属性Executor创建statementHandler对象；
+    		2）创建statementHandler对象的同时也创建parameterHandler和 resultSetHandler；
+    		3）通过parameterHandler设置预编译参数及参数值；
+    		4）调用statementHandler执行增删改查；
+
+SpringBoot启动过程：
+	1、创建了应用的监听器SpringApplicationRunListeners并开始监听。
+	2、加载SpringBoot配置环境(ConfigurableEnvironment)，如果是通过web容器发布，会加载StandardEnvironment，其最终也是继承了ConfigurableEnvironment，加入到监听器对象中(SpringApplicationRunListeners)
+	3、构建run方法的返回对象：ConfigurableApplicationContext(应用配置上下文)
+		1）先获取显式设置的应用上下文(applicationContextClass)，如果不存在，再加载默认的环境配置（通过是否是web environment判断），
+		2）默认选择AnnotationConfigApplicationContext注解上下文（通过扫描所有注解类来加载bean），最后通过BeanUtils实例化上下文对象，并返回。
+	4、构建好应用配置上下文，通过prepareContext方法将listeners、environment、applicationArguments、banner等重要组件与上下文对象关联。
+	5、接下来的refreshContext(context)方法(初始化方法如下)将是实现spring-boot-starter-*(mybatis、redis等)自动化配置的关键，包括spring.factories的加载，bean的实例化等核心工作。
+
+ThreadLocal的作用：ThreadLocal类用来提供线程内部的局部变量。这种变量在多线程环境下访问（通过get和set方法访问）时能保证各个线程的变量相对独立于其他线程内的变量。
+	1、线程并发: 在多线程并发的场景下
+	2、传递数据: 我们可以通过ThreadLocal在同一线程，不同组件中传递公共变量
+	3、线程隔离: 每个线程的变量都是独立的，不会互相影响
+	ThreadLocal 适用于每个线程需要自己独立的实例且该实例需要在多个方法中被使用，也即变量在线程间隔离而在方法或类间共享的场景。
+
+ThreadLocal数据结构：ThreadLocalMap，这个 Map 不是直接使用的 HashMap ，而是 ThreadLocal 实现的一个叫做 ThreadLocalMap 的静态内部类。
+
+强引用Reference：Reference类以及继承派生的类，当内存不足，JVM开始垃圾回收，对于强引用的对象，就算是出现了OOM也不会对该对象进行回收，死都不收。
+软引用SoftReference：软引用是一种相对强引用弱化了一些的引用，当系统内存充足时它不会被回收，当系统内存不足时它会被回收。
+弱引用WeakReference：对于只有弱引用的对象来说，只要垃圾回收机制一运行不管JVM的内存空间是否足够，都会回收该对象占用的内存。
+虚引用PhantomReference：如果一个对象仅持有虚引用，那么它就和没有任何引用一样，在任何时候都可能被垃圾回收器回收，它不能单独使用也不能通过它访问对象，虚引用必须和引用队列(ReferenceQueue)联合使用。虚引用的主要作用是跟踪对象被垃圾回收的状态
+
+软引用和弱引用的适用场景：假如有一个应用需要读取大量的本地图片，如果每次读取图片都从硬盘读取则会严重影响性能，如果一次性全部加载到内存中，又可能造成内存溢出，此时使用软引用可以解决这个问题。
+
+自旋锁：为了减少用户态/内核态切换（以切换运行线程）带来的开销，如果其他线程持有锁时间较短，则竞争锁的线程可以自旋（空转），以避免线程阻塞带来的上下文切换。
+轻量级锁：减少无实际竞争情况下，使用重量级锁产生的性能消耗，包括系统调用引起的内核态与用户态切换、线程阻塞造成的线程切换等。
+重量级锁：依赖对象内部的monitor监视器锁来实现，在JDK 1.6之前，监视器锁可以认为直接对应底层操作系统中的互斥量（mutex）。这种同步方式的成本非常高，包括系统调用引起的内核态与用户态切换、线程阻塞造成的线程切换等。因此，后来称这种锁为“重量级锁”。
+
+什么是Mysql主从复制：
+	主从复制指数据从一个Mysql数据库服务器主节点复制到一个或者多个从节点。Mysql默认采用异步复制的方式，这样从服务器不用一直访问主服务器来更新自己的数据，数据的更新可以在远程连接上进行。
+
+Mysql主从复制的原理：
+	1、当主库中的数据发生改变时，将数据的变化情况到二进制日志文件binlog中。
+	2、从库会在一定时间间隔内对主库的binlog二进制日志文件进行探测，如果发生改变，则开始一个i/o线程请求主库二进制事件。
+	3、主库为每一个i/o线程开启一个dump线程，用于发送二进制文件binlog，并保存到从库的中继日志文件中，从库将启动SQL线程
+                     从中继日志中读取二进制的binlog日志，在本地重放，从而保证从库与主库之间的数据一致。最后i/o线程和sql线程进去睡眠状态，等待下一次被唤醒。
+
+Mysql主从复制注意事项：
+	1、主库的binlog二进制日志文件，许要给从库赋远程连接的权限（主库一定要开启binlog功能，考虑到数据安全，从库也要开启binlog功能）
+	2、从库需要开启两个线程：i/o线程、sql线程
+	3、主从复制至少需要两个Mysql服务。	
+	4、主库和从库之间最好使用相同版本的Mysql，如果不相同需保证主库的版本低于从库的把那本。
+	5、主库和从库之间需保持时间同步
+
+二进制文件的格式 binlog-format：
+	row：把主库改变的内容复制到从库，而不是把sql命令在从库上执行一遍。
+	statement：把主库执行的sql在从库执行一遍，mysql默认采用基于语句的复制 ，效率比较高。
+	mixed：默认基于语句进行复制，如果基于语句无法精确复制时，采用基于行的复制。
+
+Mysql为什么需要主从复制、读写分离：
+	1、如果某个sql运行过程中需要锁表，导致暂时不能使用读的服务，那么就会对业务产生影响，使用主从复制，读写分离，主库即使出现锁表的情况，通过从库也可以保证业务的正常运作。
+	2、做数据的热备，当数据库数据丢失时，数据恢复跟方便。
+	3、架构的扩展性。随着业务量越来越大，多库存储可以降低磁盘的I/O访问评率，提高单节点的性能。
+
+Mysql读写分离能提高系统系统性能的原因：
+	1、物理服务器增加，拿硬件换性能
+	2、主库与从库只负责各自的读和写、极大的程度缓解了X锁和S锁的争用
+	3、从库可以使用myiasm引擎，提升查询性能以节约系统开销
+	4、主库写是并发的，从库通过主库异步发送的binlog进行数据同步，保持数据一致。
+
+如何实现Mysql读写分离：
+	1、通过程序实现、自己开发，门槛高、开发成本高
+	2、通过mysql-proxy来实现，mysql-proxy的主从读写分离是通过lur脚本实现，目前由于lur脚本不够完善，容易出现生产问题，而且据说mysql-proxy的性能也不高
+	3、使用阿里巴巴开源的Amoeba实现，具有负载均衡、高可用性、sql过滤、读写分离等功能。可以路由相关query到目标数据库，安装配置简单。
+
+MYSQL的RR隔离级别是如何解决幻读的：
+	主要是依靠两个特性解决的， 一个是MVCC（一致性快照） 一个是间隙锁
+	MVCC如何解决幻读：在事务开始的时候， 其实已经创建了一个快照， 后面的所有查询都是查询这个快照的， 所以查询结果一样，
+                                                至于MVCC的机制是如何作用的， MYSQL主要是记住各个事务的id， 并根据每行数据的事务id来进行比较来确定版本快照的
+	间隙锁保证幻读正确：sql的事务在执行到第一个查询语句的时候， 会加上间隙锁的， 锁住的范围是（9，+无穷] . 那么其他的事务无法再这个id范围进行任何的修改和插入操作了， 他们如果要操作就会堵住。
+                                                这样mysql又通过间隙锁的功能解决了幻读问题，但是可以看到这个代价很大的， 仅次于全表写锁了
+
+
+Amoeba下载安装后：
+	1、修改dbServers.xml
+	2、修改amoeba.xml
+               启动：./launcher
+
+
+HTTP和FTP之间的区别：
+	1、HTTP用于在Internet上的不同网站进行文件传输、FTP用于在FTP服务器和FTP客户端之间上传和下载文件
+	2、HTTP仅建立一个链接：数据连接。FTP建立两个链接：数据连接和控制连接。
+	3、HTTP使用TCP的80端口，而FTP使用TCP的20和21端口。
+	4、HTTP可以有效地传输较小的文件，如网页；而FTP则可以有效地传输大文件。
+	5、HTTP不需要身份验证；而FTP使用密码进行身份验证。
+
+长连接：
+       	所谓长连接，指在一个TCP连接上可以连续发送多个数据包，在TCP连接保持期间，如果没有数据包发送，需要双方发检测包以维持此连接，一般需要自己做在线维持（不发生RST包和四次挥手）。      
+       	这就要求长连接在没有数据通信时，定时发送数据包(心跳)，以维持连接状态；	
+	连接→数据传输→保持连接(心跳)→数据传输→保持连接(心跳)→……→关闭连接（一个TCP连接通道多个读写通信）；
+
+	TCP的KeepAlive保活机制，保活功能主要为服务器应用提供，服务器应用希望知道客户主机是否崩溃，从而可以代表客户使用资源。如果客户已经消失，使得服务器上保留一个半开放的连接，
+       	而服务器又在等待来自客户端的数据，则服务器将应远等待客户端的数据，保活功能就是试图在服务器端检测到这种半开放的连接。
+	如果一个给定的连接在两小时内没有任何的动作，则服务器就向客户发一个探测报文段，客户主机必须处于以下4个状态之一：
+		1、客户主机依然正常运行，并从服务器可达。客户的TCP响应正常，而服务器也知道对方是正常的，服务器在两小时后将保活定时器复位。
+		2、客户主机已经崩溃，并且关闭或者正在重新启动。在任何一种情况下，客户的TCP都没有响应。服务端将不能收到对探测的响应，并在75秒后超时。服务器总共发送10个这样的探测 ，每个间隔75秒。如果服务器没有收到一个响应，它就认为客户主机已经关闭并终止连接。
+		3、客户主机崩溃并已经重新启动。服务器将收到一个对其保活探测的响应，这个响应是一个复位，使得服务器终止这个连接。
+		4、客户机正常运行，但是服务器不可达，这种情况与2类似，TCP能发现的就是没有收到探查的响应。
+
+短连接：
+	短连接是指通信双方有数据交互时，就建立一个TCP连接，数据发送完成后，则断开此TCP连接（管理起来比较简单，存在的连接都是有用的连接，不需要额外的控制手段）；
+	连接→数据传输→关闭连接；
+
+NIO 和 BIO 的比较
+	1、BIO 以流的方式处理数据，而 NIO 以块的方式处理数据，块 I/O 的效率比流 I/O 高很多。
+	2、BIO 是阻塞的，NIO 则是非阻塞的。
+	3、BIO 基于字节流和字符流进行操作，而 NIO 基于 Channel（通道）和 Buffer（缓冲区）进行操作，数据总是从通道读取到缓冲区中，或者从缓冲区写入到通道中。
+	     Selector（选择器）用于监听多个通道的事件（比如：连接请求，数据到达等），因此使用单个线程就可以监听多个客户端通道。
+	4、NIO 中 Buffer和Channel之间的数据流向是双向的
+
+
+@Autowired 与@Resource的区别：
+	@Autowire 默认按照类型装配，默认情况下它要求依赖对象必须存在，不存在会NullpointException，如果允许为null，可以设置它required属性为false，如果我们想使用按照名称装配，可 以结合@Qualifier注解一起使用;
+	@Resource默认按照名称装配，当找不到与名称匹配的bean才会按照类型装配，可以通过name属性指定，如果没有指定name属 性，当注解标注在字段上，即默认取字段的名称作为bean名称寻找依赖对象，当注解标注在属性的setter方法上，即默认取属性名作为bean名称寻找 依赖对象.
+
+数据结构：
+	1、线性结构：数组、链表、队列、栈等
+	2、非线性结构：多维数组、树结构、图结构、广义表等
+
+栈的使用场景：
+	1、表达式的转换（中缀表达式转后缀表达式）与求值     PS：  后缀表达式=逆波兰表达式
+	2、二叉树的遍历
+	3、图形的深度优先算法
+
+前缀表达式：又叫波兰表达式，前缀表达式的运算符位于操作数之前，从右至左扫描表达式，遇到数字时将数字压入堆栈，遇到运算符时弹出栈顶两个数字做相应的计算，并将结果入栈，重复上述操作。
+	eg： (3+4)*5-6  对应的前缀表达式： - * + 3 4 5 6
+
+中缀表达式：我们常见的运算符表达式，对计算机不友好，因此在计算结果的时候往往会将中缀表达式转换成其他表达式来操作。
+	eg：(3+4)*5-6，	
+
+后缀表达式：又叫逆波兰表达式，与前缀表达式类似，运算符位于操作数之后从左至右扫描表达式，遇到数字时将数字压入堆栈，遇到运算符时弹出栈顶两个数字做相应的计算，并将结果入栈，重复上述操作。
+	eg：(3+4)*5-6对应的后缀表达式：3 4 + 5 * 6 -

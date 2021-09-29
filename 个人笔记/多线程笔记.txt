@@ -1,0 +1,58 @@
+Synchronized和Lock有什么区别
+	1、synchronized属于JVM层面，属于java的关键字
+		synchronized使用monitorenter完成（底层是通过monitor对象来完成，其实wait/notify等方法也依赖于monitor对象 只能在同步块或者方法中才能调用 wait/ notify等方法）
+		Lock是具体类（java.util.concurrent.locks.Lock）是api层面的锁
+	2、使用方法：
+		synchronized：不需要用户去手动释放锁，当synchronized代码执行后，系统会自动让线程释放对锁的占用。
+		ReentrantLock：则需要用户去手动释放锁，若没有主动释放锁，就有可能出现死锁的现象，需要lock() 和 unlock() 配置try catch语句来完成
+	3、等待是否中断
+		synchronized：不可中断，除非抛出异常或者正常运行完成。
+		ReentrantLock：可中断，可以设置超时方法：
+			a、设置超时方法，trylock(long timeout, TimeUnit unit)
+			b、lockInterrupible() 放代码块中，调用interrupt() 方法可以中断
+	4、加锁是否公平
+		synchronized：非公平锁
+		ReentrantLock：默认非公平锁，构造函数可以传递boolean值，true为公平锁，false为非公平锁
+	5、锁绑定多个条件Condition
+		synchronized：没有，要么随机，要么全部唤醒
+		ReentrantLock：用来实现分组唤醒需要唤醒的线程，可以精确唤醒，而不是像synchronized那样，要么随机，要么全部唤醒
+
+线程池使用及优势：
+	线程池做的工作主要是控制运行的线程的数量，处理过程中将任务放入队列，然后在线程创建后启动这些任务，如果线程数量超过了最大数量超出数量的线程排队等候，等其它线程执行完毕，再从队列中取出任务来执行。
+          它的主要特点为：线程复用，控制最大并发数，管理线程。
+
+         优点：
+	1、降低资源消耗。通过重复利用己创建的线程降低线程创建和销毁造成的消耗。
+	2、提高响应速度。当任务到达时，任务可以不需要的等到线程创建就能立即执行。
+	3、提高线程的可管理性。线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控。
+
+线程池7大参数深入介绍:
+	corePoolSize：线程池中的常驻核心线程数，在创建了线程池后，当有请求任务来之后，就会安排池中的线程去执行请求任务，近似理解为今日当值线程。当线程池中的线程数目达到corePoolSize后，就会把到达的任务放到缓存队列当中。
+	maximumPoolSize：线程池能够容纳同时执行的最大线程数，此值必须大于等于1
+	keepAliveTime：多余的空闲线程的存活时间。当前线程池数量超过corePoolSize时，当空闲时间达到keepAliveTime值时，多余空闲线程会被销毁直到只剩下corePoolSize个线程为止
+	unit：keepAliveTime的单位。
+	workQueue：任务队列，被提交但尚未被执行的任务。
+	threadFactory：表示生成线程池中工作线程的线程工厂，用于创建线程一般用默认的即可。
+	handler：拒绝策略，表示当队列满了并且工作线程大于等于线程池的最大线程数（ maximumPoolSize)。
+
+线程池底层工作原理:
+	1、在创建了线程池后，等待提交过来的任务请求。
+	2、当调用execute()方法添加一个请求任务时，线程池会做如下判断：
+		2.1、如果正在运行的线程数量小于corePoolSize，那么马上创建线程运行这个任务；
+		2.2、如果正在运行的线程数量大于或等于corePoolSize，那么将这个任务放入队列；
+		2.3、如果这时候队列满了且正在运行的线程数量还小于maximumPoolSize，那么还是要创建非核心线程立刻运行这个任务;
+		2.4、如果队列满了且正在运行的线程数量大于或等于maximumPoolSize，那么线程池会启动饱和拒绝策略来执行。
+	3、当一个线程完成任务时，它会从队列中取下一个任务来执行。
+	4、当一个线程无事可做超过一定的时间（keepAliveTime）时，线程池会判断:
+		4.1、如果当前运行的线程数大于corePoolSize，那么这个线程就被停掉，所以线程池的所有任务完成后它最终会收缩到corePoolSize的大小。
+
+
+线程池的4种拒绝策略理论简介：内置拒绝策略均实现了RejectedExecutionHandler接口。
+JDK拒绝策略：
+	1、AbortPolicy（默认）：直接抛出 RejectedExecutionException异常阻止系统正常运知。
+	2、CallerRunsPolicy："调用者运行"一种调节机制，该策略既不会抛弃任务，也不会抛出异常，而是将某些任务回退到调用者，从而降低新任务的流量。
+	3、DiscardOldestPolicy：抛弃队列中等待最久的任务，然后把当前任务加入队列中尝试再次提交当前任务。
+	4、DiscardPolicy：直接丢弃任务，不予任何处理也不抛出异常。如果允许任务丢失，这是最好的一种方案。
+
+
+

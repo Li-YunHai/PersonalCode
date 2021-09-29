@@ -1,0 +1,93 @@
+搜索目录find：find 目录 参数 文件名称，示例：find /usr/tmp -name 'a*'    查找/usr/tmp目录下的所有以a开头的目录或文件
+文件的查看：
+	1、cat：看最后一屏，只能显示最后一屏内容，示例：cat sudo.conf
+	2、less：翻页查看，可以使用键盘上的PgUp和PgDn向上    和向下翻页，q结束查看，示例：less sudo.conf
+	3、tail：指定行数或者动态查看，使用tail -10 查看/etc/sudo.conf文件的后10行，Ctrl+C结束，示例：tail -10 sudo.conf
+压缩命令：
+	1、zip压缩：zip -r 压缩后的文件名 文件名
+	2、zip解压缩：unzip 压缩文件名
+	3、tar压缩：tar -zcvf 打包压缩后的文件名 要打包的文件
+	4、tar解压缩：tar -zxvf 压缩文件名
+
+防火墙：
+关闭防火墙：systemctl stop firewalld.service
+禁止防火墙开机启动：systemctl disable firewalld.service
+查看默认防火墙状态：firewall-cmd --state （关闭后显示notrunning，开启后显示running）
+重启网络：service network restart
+
+修改文件权限：chmod 777，读-4、写-2、执行-1
+设置文件所有者和文件关联组：chown 所有者:使用者 目录
+变更文件或目录的所属群组：chgrp 使用者 目录
+
+配置环境变量：vi /etc/profile
+环境变量配置立即生效：source /etc/profile
+
+
+生产问题分析：
+top：通过top命令查看linux系统当前的使用情况
+	1、查看啊CPU、MEM的使用情况，
+	2、查看load average（1分钟、5分钟、15分钟）系统的平均负载情况，如果三个值相加之后除以3高于0.6则说明系统处于高负载情况
+	PS：top命令窗口下按“1”可以查看当前CPU各个核心的使用情况
+
+
+查看CPU使用情况相关命令：
+uptime：top命令的精简版，查看load average状态
+vmstat：主要用于查看CPU使用情况（包含但不限于），Eg：vmstat -n 2 3	含义：每两秒钟采样一次，一共采样3次
+	procs：
+		r：运行和等待的CPU时间片的进程数，原则上1核的CPU的运行队列不要超过2，整个系统的运行队列不超过总核数的2倍，否则代表系统压力过大，我们看蘑菇博客测试服务器，能发现都超过了2，说明现在压力过大
+		b：等待资源的进程数，比如正在等待磁盘I/O、网络I/O等
+	cpu：
+		us：用户进程消耗CPU时间百分比，us值高，用户进程消耗CPU时间多，如果长期大于50%，优化程序
+		sy：内核进程消耗的CPU时间百分比
+		us + sy 参考值为80%，如果us + sy 大于80%，说明可能存在CPU不足，从上面的图片可以看出，us + sy还没有超过百分80，因此说明蘑菇博客的CPU消耗不是很高
+		id：处于空闲的CPU百分比
+		wa：系统等待IO的CPU时间百分比
+		st：来自于一个虚拟机偷取的CPU时间比
+mpstat：查看所有CPU核心的使用情况，Eg：mpstat -P ALL 2 3	含义：每两秒钟采样一次，一共采样3次
+pidstat：每个进程使用cpu的用量分解信息，Eg：pidstat -p 进程号 -u 采样间隔秒数
+
+
+查看内存使用情况相关命令：
+free：应用程序可用内存数，Eg-按MB查看内存：free -m，Eg-按GB查看内存：free -g
+	1、应用程序可用内存l系统物理内存>70%内存充足
+	2、应用程序可用内存/系统物理内存<20%内存不足，需要增加内存
+	3、20%<应用程序可用内存/系统物理内存<70%内存基本够用
+pidstat：每个进程使用内存的用量分解信息，pidstat -p 进程号 -r 采样间隔秒数
+
+
+查看磁盘使用情况相关命令：
+df -h：查看磁盘的使用情况，以GB显示
+
+
+磁盘I/O性能评估相关命令：
+iostat -xdk 2 3：查看磁盘I/O情况，每两秒钟采样一次，一共采样3次
+	磁盘块设备分布:
+	1、rkB/s每秒读取数据量kB;wkB/s每秒写入数据量kB;
+	2、svctm lO请求的平均服务时间，单位毫秒；
+	3、await l/O请求的平均等待时间，单位毫秒；值越小，性能越好;
+	4、util一秒中有百分几的时间用于I/O操作。接近100%时，表示磁盘带宽跑满，需要优化程序或者增加磁盘;
+	5、rkB/s、wkB/s根据系统应用不同会有不同的值，但有规律遵循:长期、超大数据读写，肯定不正常，需要优化程序读取。
+	6、svctm的值与await的值很接近，表示几乎没有IO等待，磁盘性能好。
+	7、如果await的值远高于svctm的值，则表示IO队列等待太长，需要优化程序或更换更快磁盘。
+pidstat：查看每个进程磁盘I/O情况，Eg：pidstat -p 进程号 -d  采样间隔秒数
+
+
+生产环境CPU占用过高的定位分析思路：
+	1、先用top命令找出CPU占比最高的进程
+	2、ps -ef或者jps进一步定位，得知是一个怎么样的一个后台程序在占用CPU
+		ps命令：ps -ef | grep java | grep -v grep
+		jps命令：jps -l | grep java
+		
+	3、定位到具体线程或者代码：ps -mp 进程号 -o THREAD,tid,time
+		参数说明：
+		-m 显示所有的线程
+		-p pid进程使用cpu的时间
+		-o 该参数后是用户自定义格式
+	4、将需要的线程ID转换为16进制格式（英文小写格式），原因：线程在内存中运行采用16进制的格式
+		命令：printf "%x\n" 问题线程号
+		Eg：printf "%x\n" 5102，结果：13ee
+
+	5、jstack 进程号 | grep tid（16进制线程ID小写英文）-A60
+		Eg：jstack 5101 | grep tid 13ee -A60
+		含义：打印5101进程下13ee线程的前60行运行信息
+

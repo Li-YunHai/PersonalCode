@@ -1,0 +1,185 @@
+#Consul命令：
+切换到consul.exe所在目录，cmd控制台执行如下命令
+consul --version
+consul agent -dev
+http://localhost:8500/
+
+#RabbitMQ：
+可视化插件 ：rabbitmq-plugins enable rabbitmq_management
+http://localhost:15672/
+输入账号密码并登录：guest guest
+
+#Zipkin：
+切换到zipkin所在目录，cmd控制台执行如下命令
+java -jar zipkin-server-2.23.2-exec.jar
+http://localhost:9411/zipkin
+
+#Nacos：
+切换到nacos所在目录直接运行bin目录下的startup.cmd
+单机模式启动：startup.cmd -m standalone
+http://localhost:8848/nacos
+输入账号密码并登录：nacos nacos 
+
+
+#zookeeper集群配置
+#服务名=主机名或IP:端口1：端口2 
+server.1=192.168.81.11:2888:3888
+server.2=192.168.81.12:2888:3888
+server.3=192.168.81.13:2888:3888
+#2888：leader 和follower 之间的通信端口
+#3888：当leader宕机后，follower 会通过paxos算法选举出新的leader，即follower之间通信的端口
+
+cd /home/liyh/software/zookeeper/apache-zookeeper-3.7.0-bin
+sh zkServer.sh start
+sh zkServer.sh status
+sh zkServer.sh stop
+
+
+#Redis命令
+linux查看redis版本号：redis -server -v
+登录redis后查看redis版本号：info
+默认端口号：6379
+启动：redis-server redis.conf
+端口连接：redis-cli -p 端口号
+集群连接：redis-cli -c -p 端口号
+关闭：redis-cli shutdown 或者  kill -9 进程号
+客户端发布：publish channel1 hello
+客户端订阅：subscribe channel1
+查看运行情况：info replication
+关联master：slaveof 主机IP 主机端口号
+反客为主：slave no one
+启动哨兵：redis-sentinel sentinel.conf
+集群构建：redis-cli --cluster create --cluster-replicas 1 服务器IP:服务器端口 服务器IP:服务器端口
+Slave数量： --cluster-replicas 节点数量
+查看集群信息：cluster nodes
+查看key对应的插槽值：cluster keyslot 键值
+查看插槽中的key：cluster countkeysinslot 插槽值 
+获取插槽中的key：cluster getkeysinslot 插槽值 数量
+集群异常处理方式：cluster-require-full-coverage yes/no    说明：yes：整个集群异常，no：当前插槽不可用，其他插槽继续正常使用
+插槽：slots 16384
+插槽计算公式：CRC(键值 或 组名)%16384，用于计算key落在哪个插槽上
+
+
+#redis配置
+哨兵模式：sentinel moniter 哨兵名称 主机IP 主机端口 哨兵数量
+哨兵端口：26379
+Matser选举原则：优先级靠前的>偏移量最大的>runid最小的
+优先级：replica-priority 数值 ，值越小优先级越高。  历史版本：slave-priority
+偏移量：同步原主机数据最全的
+runid：每个redis实例启动后都会随机生成一个40位的runid
+开启集群模式：cluster-enabled yes
+指定配置文件名：cluster-config-file node-6379.conf
+节点失联时间：cluster-node-timeout 15000， 超过该时间（毫秒），集群自动进行主备切换
+
+redis缓存穿透：大量无效URL访问时，服务器本身压力过大，且访问数据在缓存中不存在，导致频繁访问数据库的现象（数据库中也没有）。
+       解决方式：1、对空值进行缓存，设置较小的过期时间（临时应急方案）。
+	       2、设置访问白名单：使用bitmaps定义一个可以访问的白名单，每次访问都比较白名单，效率不高。
+	       3、采用布隆过滤器：类似于一个hash set，用于快速判某个元素是否存在于集合中，其典型的应用场景就是快速判断一个key是否存在于某容器，不存在就直接返回。布隆过滤器的关键就在于hash算法和容器大小。
+	       4、进行实时监控：当发现redis命中急速减低时，排查访问对象和访问数据，配合运维人员，设置黑名单限制。
+
+redis缓存击穿：大量URL访问时，服务器本身压力过大，且访问数据在缓存中已过期，导致频繁访问数据库的现象。
+       解决方式：1、预先设置热点缓存数据，加大热点数据的缓存时长
+	       2、实时监控热点数据，调整热点数据的过期时长
+	       3、使用分布式锁
+	       4、接口限流与熔断，降级：重要的接口一定要做好限流策略，防止用户恶意刷接口，同时要降级准备，当接口中的某些 服务  不可用时候，进行熔断，失败快速返回机制。
+
+redis缓存雪崩：缓存雪崩是指缓存中数据大批量到过期时间，而查询数据量巨大，引起数据库压力过大甚至down机。和缓存击穿不同的是，缓存击穿指并发查同一条数据，缓存雪崩是不同数据都过期了，很多数据都查不到从而查数据库。       
+       解决方案：1、多级缓存：Nginx缓存 + redis缓存 + ehcache缓存等。
+	       2、设置过期标志更新缓存：记录缓存是否过期，如果过期，通知后台线程更新实际缓存。
+	       3、分散缓存失效时间：原有的缓存数据的过期时间+随机值，防止同一时间大量数据过期现象发生。
+	       4、使用分布式锁
+
+redis分布式锁实现原理：
+	Redisson在客户端线程在加锁成功后会后台开启一个watch dog看门狗线程，该线程每隔10秒检查一下客户端的锁状态，如果客户端A还持有锁key，那么就会不断的延长锁key的生存时间。默认加锁时长：30秒
+
+redis主从复制原理：
+	1、从服务器连接主服务器，发送SYNC命令； 
+	2、主服务器接收到SYNC命名后，开始执行BGSAVE命令生成RDB文件并使用缓冲区记录此后执行的所有写命令； 
+	3、主服务器BGSAVE执行完后，向所有从服务器发送快照文件，并在发送期间继续记录被执行的写命令； 
+	4、从服务器收到快照文件后丢弃所有旧数据，载入收到的快照； 
+	5、主服务器快照发送完毕后开始向从服务器发送缓冲区中的写命令； 
+	6、从服务器完成对快照的载入，开始接收命令请求，并执行来自主服务器缓冲区的写命令；（从服务器初始化完成）
+	7、主服务器每执行一个写命令就会向从服务器发送相同的写命令，从服务器接收并执行收到的写命令（从服务器初始化完成后的操作）
+
+redis哨兵模式：
+	1、监控主服务器和从服务器是否正常运行。 
+	2、主服务器出现故障时自动将从服务器转换为主服务器。
+
+哨兵的工作方式：
+      sentinel主、备节点的健康检查：
+	1、每个Sentinel（哨兵）进程以每秒钟一次的频率向整个集群中的Master主服务器，Slave从服务器以及其他Sentinel（哨兵）进程发送一个 PING 命令。
+	2、如果一个实例（instance）距离最后一次有效回复 PING 命令的时间超过 down-after-milliseconds 选项所指定的值， 则这个实例会被 Sentinel（哨兵）进程标记为主观下线（SDOWN）
+	3、如果一个Master主服务器被标记为主观下线（SDOWN），则正在监视这个Master主服务器的所有 Sentinel（哨兵）进程要以每秒一次的频率确认Master主服务器的确进入了主观下线状态
+	4、当有足够数量的 Sentinel（哨兵）进程（大于等于配置文件指定的值）在指定的时间范围内确认Master主服务器进入了主观下线状态（SDOWN）， 则Master主服务器会被标记为客观下线（ODOWN），并选举新的Master。
+	6、若没有足够数量的 Sentinel（哨兵）进程同意 Master主服务器下线， Master主服务器的客观下线状态就会被移除。若 Master主服务器重新向 Sentinel（哨兵）进程发送 PING 命令返回有效回复，Master主服务器的主观下线状态就会被移除。
+      sentinel主、备节点的信息通同步：
+	1、在一般情况下， 每个 Sentinel（哨兵）进程会以每 10 秒一次的频率向集群中的所有Master主服务器、Slave从服务器发送 INFO 命令。
+	2、当Master主服务器被 Sentinel（哨兵）进程标记为客观下线（ODOWN）时，Sentinel（哨兵）进程向下线的 Master主服务器的所有 Slave从服务器发送 INFO 命令的频率会从 10 秒一次改为每秒一次。
+
+哨兵模式的缺点：
+	1、哨兵模式下每台 Redis 服务器都存储相同的数据，很浪费内存空间；数据量太大，主从同步时严重影响了master性能。
+	2、哨兵模式是中心化的集群实现方案，每个从机和主机的耦合度很高，master宕机到salve选举master恢复期间服务不可用。
+	3、哨兵模式始终只有一个Redis主机来接收和处理写请求，写操作还是受单机瓶颈影响，没有实现真正的分布式架构。
+
+redis集群的优点：
+	1、无中心架构;
+	2、数据按照 slot 存储分布在多个节点，节点间数据共享，可动态调整数据分布;
+	3、降低运维成本，提高系统的扩展性和可用性
+redis集群的缺点：
+	1、对Key 批量执行 mset、mget、sunion 等操作支持不友好。
+	2、Key 事务操作支持有限，只支持多 key 在同一节点上的事务操作，当多个 Key 分布于不同的节点上时无法使用事务功能。
+	3、不支持多数据库空间，单机下的 redis 可以支持到 16 个数据库，集群模式下只能使用 1 个数据库空间，即 db 0。
+	4、复制结构只支持一层，从节点只能复制主节点，不支持嵌套树状复制结构。
+
+Redis cluster的节点间的内部通信机制
+	redis cluster节点间采取gossip协议进行通信，gossip协议包含多种消息，包括ping、pong、meet、fail等等
+		meet: 某个节点发送meet给新加入的节点，让新节点加入集群中，然后新节点就会开始与其他节点进行通信
+		ping: 每个节点都会频繁给其他节点发送ping，其中包含自己的状态还有自己维护的集群元数据，互相通过ping交换元数据
+		pong: 返回ping和meet，包含自己的状态和其他信息，也可以用于信息广播和更新
+		fail: 某个节点判断另一个节点fail之后，就发送fail给其他节点，通知其他节点，指定的节点宕机了
+	分析通讯过程：
+		1、集群中的每个节点都会单独开辟一个TCP通道，用于节点之间彼此通信，通讯端口号在基础端口上加10000。
+		2、每个节点在固定周期内通过特定规则选择几个节点发送ping消息。
+		3、接受到ping消息的节点用pong消息响应。
+	优点：元数据的更新比较分散，不是集中在一个地方，更新请求会陆陆续续，打到所有节点上去更新，降低了单节点的压力。
+	缺点：数据更新有延时，可能导致集群的一些操作会有一些滞后
+	ping消息深入：每个节点每秒会执行10次ping，每次会选择带上几个最久没有通信的其他节点信息，至少包含3个其他节点的信息，
+  	          最多包含总节点-2个其他节点的信息，当然如果发现某个节点通信延时达到了cluster_node_timeout / 2，那么立即发送ping
+
+
+
+#Kafka消息中间件：
+切换到kafka安装目录
+启动：bin/kafka-server-start.sh -daemon config/server.properties
+关闭：bin/kafka-server-stop.sh stop
+查看所有topic：bin/kafka-topics.sh --bootstrap-server 127.0.0.1:2181 --list
+新增topic：bin/kafka-topics.sh --bootstrap-serve 127.0.0.1:2181 --create --replication-factor 副本数 --partitions 分区数 --topic 主题名称
+删除topic：bin/kafka-topics.sh --bootstrap-serve 127.0.0.1:2181 --delete --topic 主题名称
+查看所有 Topic 的详情：bin/kafka-topics.sh --bootstrap-serve 127.0.0.1:2181 --describe
+查看某个 Topic 的详情：bin/kafka-topics.sh --bootstrap-serve 127.0.0.1:2181 --describe --topic 主题名称
+修改分区数：bin/kafka-topics.sh --bootstrap-serve 127.0.0.1:2181 --alter --topic 主题名称 --partitions 6
+发送消息：bin/kafka-console-producer.sh --broker-list 127.0.0.1:2181 --topic 主题名称
+消费消息（系统随机分配groupid）：bin/kafka-console-consumer.sh --bootstrap-serve 127.0.0.1:2181 --topic 主题名称
+消费消息（配置文件分配groupid）：bin/kafka-console-consumer.sh --bootstrap-serve 127.0.0.1:2181 --consumer.config config/consumer.properties --topic 主题名称 
+查看所有groupid：bin/kafka-cumer-groups.sh --bootstrap-server 127.0.0.1:2181 --list
+注意事项：
+	1、分区数不能大于broker机器数，否则报错。
+	2、分区数只能改大，不能改小。
+	3、创建topic时，默认副本数、分区数都为：1
+	4、默认消息存活时长7天
+
+ISR：
+	Leader 维护了一个动态的 in-sync replica set (ISR)，意为和 leader 保持同步的 follower 集合。
+	当 ISR 中的 follower 完成数据的同步之后，leader就会给 follower发送 ack。如果follower
+	长时间未向leader同步数据，则该follower 将被踢出 ISR ，该时间阈值由当 ISR 中的replica.lag.time.max.ms 参数设定。
+                Leader 发生故障之后，就会从 ISR 中选举新的 leader。
+
+消费者消费时分区分配策略：Kafka 有两种分配策略，一是 RoundRobin，一是 Range（默认）。
+	1、RoundRobin轮询方式：以消费者组位单位，将消费者订阅的所有主题里的分区全部取出来，并对分区进行排序，在对分区进行轮询分配。有可能导致消费的消费不是自己订阅的主题。
+	2、Range范围方式：以主题为单位，如果消费者没有订阅某个主题，就不会收到对应主题相关的数据。可能会导致每个消费者消费分区不均等。
+
+消息发送流程：
+	Kafka 的 Producer 发送消息采用的是异步发送的方式。在消息发送的过程中，涉及到了
+两个线程——main 线程和 Sender 线程，以及一个线程共享变量——RecordAccumulator。
+main 线程将消息发送给 RecordAccumulator，Sender 线程不断从 RecordAccumulator 中拉取
+消息发送到 Kafka broker
