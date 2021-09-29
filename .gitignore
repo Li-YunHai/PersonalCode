@@ -1,0 +1,5 @@
+*/**/target/classes/**/*
+*.classes
+*.target
+*.iml
+*.idel
