@@ -1,0 +1,8 @@
+#自定义配置
+my:
+  car:
+    config:
+      brand: BYD
+      price: 100000
+
+

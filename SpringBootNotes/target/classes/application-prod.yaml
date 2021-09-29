@@ -1,0 +1,6 @@
+#自定义配置
+my:
+  car:
+    config:
+      brand: BAOMA
+      price: 1000000

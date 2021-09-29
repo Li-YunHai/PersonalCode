@@ -1,0 +1,22 @@
+{
+  "groups": [
+    {
+      "name": "my.car.config",
+      "type": "com.springboot.notes.model.Car",
+      "sourceType": "com.springboot.notes.model.Car"
+    }
+  ],
+  "properties": [
+    {
+      "name": "my.car.config.brand",
+      "type": "java.lang.String",
+      "sourceType": "com.springboot.notes.model.Car"
+    },
+    {
+      "name": "my.car.config.price",
+      "type": "java.lang.Long",
+      "sourceType": "com.springboot.notes.model.Car"
+    }
+  ],
+  "hints": []
+}

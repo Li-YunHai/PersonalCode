@@ -1,0 +1,60 @@
+server:
+  port: 9527
+
+spring:
+  application:
+    name: cloud-eureka-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: cloud-eureka-gateway-01    #路由的ID，没有固定规则但要求唯一，建议配合服务名
+          #uri: http://localhost:8001          #匹配后提供服务的路由地址
+          uri: lb://cloud-eureka-provider #匹配后提供服务的路由地址
+          predicates:
+            - Path=/dept/get/**         # 断言，路径相匹配的进行路由
+          #filters:
+            #- PrefixPath=/feign #统一前缀
+
+        - id: cloud-eureka-gateway-02    #路由的ID，没有固定规则但要求唯一，建议配合服务名
+          #uri: http://localhost:8001          #匹配后提供服务的路由地址
+          uri: lb://cloud-eureka-provider #匹配后提供服务的路由地址
+          predicates:
+            - Path=/dept/discovery/**         # 断言，路径相匹配的进行路由
+            # 断言，在某一时间之后
+            - After=2020-02-05T15:10:03.685+08:00[Asia/Shanghai]
+            # 断言，在某一时间之前
+            - Before=2020-02-05T15:10:03.685+08:00[Asia/Shanghai]
+            # 断言，在某一时间段内
+            - Between=2020-02-02T17:45:06.206+08:00[Asia/Shanghai],2020-03-25T18:59:06.206+08:00[Asia/Shanghai]
+            # 断言，cookie
+            # 测试：curl http://localhost:9527/dept/discovery --cookie "username=zzyy"
+            - Cookie=username,zzyy
+            # 断言，请求头要有X-Request-Id属性并且值为整数的正则表达式
+            # 测试：curl http://localhost:9527/dept/discover -H "X-Request-Id:1024"
+            - Header=X-Request-Id, \d+
+            # 断言，一组域名列
+            # 测试：curl http://localhost:9527/dept/discovery -H "Host: www.atguigu.com"
+            - Host=**.atguigu.com,**.liyunhai.com
+            # 断言，请求方式
+            # 测试：curl -X -GET http://localhost:9527/dept/discovery
+            - Method=GET
+            # 断言，要有参数名username并且值还要是整数才能路由
+            - Query=username, \d+
+
+          filters:
+            - AddRequestParameter=X-Request-Id,1024 #过滤器工厂会在匹配的请求头加上一对请求头，名称为X-Request-Id值为1024
+            - PrefixPath=/feign #统一前缀
+
+eureka:
+  instance:
+    hostname: cloud-eureka-gateway
+
+  client: #服务提供者provider注册进eureka服务列表内
+    service-url:
+      register-with-eureka: true
+      fetch-registry: true
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+

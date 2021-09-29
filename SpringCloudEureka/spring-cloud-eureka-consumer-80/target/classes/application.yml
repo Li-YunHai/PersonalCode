@@ -1,0 +1,74 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: cloud-eureka-consumer
+
+  main:
+    # @FeignClient(value = "服务名") 设置可以有多个类存在相同的FeignClient中的value值
+    allow-bean-definition-overriding: true
+
+  cloud:
+    stream:
+      binders: # 在此处配置要绑定的rabbitmq的服务信息；
+        defaultRabbit: # 表示定义的名称，用于于binding整合
+          type: rabbit # 消息组件类型
+          environment: # 设置rabbitmq的相关的环境配置
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: guest
+                password: guest
+      bindings: # 服务的整合处理
+        output: # 这个名字是一个通道的名称
+          destination: studyExchange # 表示要使用的Exchange名称定义
+          content-type: application/json # 设置消息类型，本次为json，文本则设置“text/plain”
+          binder: defaultRabbit # 设置要绑定的消息服务的具体设置
+
+  #spring-cloud-sleuth链路监控
+  zipkin:
+    base-url: http://localhost:9411
+    sleuth:
+      sampler:
+        #采样率值介于 0 到 1 之间，1 则表示全部采集
+        probability: 1
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      #单机配置
+      #defaultZone: http://localhost:7001/eureka/  #设置与Eureka Server交互的地址查询服务和注册服务都需要依赖这个地址。
+      #集群配置
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/  #设置与Eureka Server交互的地址查询服务和注册服务都需要依赖这个地址。
+
+  instance:
+    instance-id: cloud-eureka-consumer
+    prefer-ip-address: true
+
+#开启客户端容错
+feign:
+  hystrix:
+    enabled: true
+
+#设置feign客户端超时时间(OpenFeign默认支持ribbon)
+ribbon:
+  #指的是建立连接所用的时间，适用于网络状况正常的情况下,两端连接所用的时间
+  ReadTimeout: 10000
+  #指的是建立连接后从服务器读取到可用资源所用的时间
+  ConnectTimeout: 10000
+
+#超时时间配置，此处全局超时配置时间大于@HystrixProperty配置时间后，@HystrixProperty注解中的超时才生效
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+
+
+

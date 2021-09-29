@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f1d7cc4e-fcde-4fd7-be46-96b2697961e0" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="spring-beans.schema" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="F:\maven\repository" />
+        <option name="mavenHome" value="D:/SoftWare/apache-maven-3.8.1" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1uGLsVNeH9jYWArYEmfauaABqYi" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="jdk.selected.JAVA_MODULE" value="1.8" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../SpringCloudAlibaba" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
+  </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.learn.notes.springboot" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.SynchronousQueueDemo">
+    <configuration name="ConditionAwaitSignalDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.learn.notes.concurrent.lock.ConditionAwaitSignalDemo" />
+      <module name="ConcurrentNotes" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.learn.notes.concurrent.lock.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EncodeDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.learn.notes.algorithm.EncodeDemo" />
+      <module name="ConcurrentNotes" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.learn.notes.algorithm.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SingleNumbers" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.learn.notes.algorithm.SingleNumbers" />
+      <module name="ConcurrentNotes" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.learn.notes.algorithm.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StringInternDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.learn.notes.practice.StringInternDemo" />
+      <module name="ConcurrentNotes" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.learn.notes.practice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SynchronousQueueDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.learn.notes.concurrent.SynchronousQueueDemo" />
+      <module name="ConcurrentNotes" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.learn.notes.concurrent.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.StringInternDemo" />
+      <item itemvalue="Application.SingleNumbers" />
+      <item itemvalue="Application.EncodeDemo" />
+      <item itemvalue="Application.ConditionAwaitSignalDemo" />
+      <item itemvalue="Application.SynchronousQueueDemo" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.SynchronousQueueDemo" />
+        <item itemvalue="Application.ConditionAwaitSignalDemo" />
+        <item itemvalue="Application.EncodeDemo" />
+        <item itemvalue="Application.SingleNumbers" />
+        <item itemvalue="Application.StringInternDemo" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f1d7cc4e-fcde-4fd7-be46-96b2697961e0" name="Default Changelist" comment="" />
+      <created>1624287185591</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1624287185591</updated>
+      <workItem from="1624287186794" duration="4009000" />
+      <workItem from="1624351317569" duration="6948000" />
+      <workItem from="1624536683617" duration="5447000" />
+      <workItem from="1624946134715" duration="13078000" />
+      <workItem from="1625036493997" duration="6372000" />
+      <workItem from="1625128859766" duration="5447000" />
+      <workItem from="1625216762520" duration="1780000" />
+      <workItem from="1625465087816" duration="10635000" />
+      <workItem from="1625550763570" duration="11058000" />
+      <workItem from="1625631391359" duration="5423000" />
+      <workItem from="1625729582004" duration="595000" />
+      <workItem from="1625816672624" duration="8311000" />
+      <workItem from="1626009998523" duration="600000" />
+      <workItem from="1626263983240" duration="5707000" />
+      <workItem from="1626341315637" duration="2323000" />
+      <workItem from="1626422368929" duration="5098000" />
+      <workItem from="1626522985717" duration="1190000" />
+      <workItem from="1626703275604" duration="3151000" />
+      <workItem from="1626752545301" duration="592000" />
+      <workItem from="1626767892368" duration="6136000" />
+      <workItem from="1626840858248" duration="11531000" />
+      <workItem from="1626951965229" duration="6781000" />
+      <workItem from="1627298178599" duration="15893000" />
+      <workItem from="1627467170752" duration="5164000" />
+      <workItem from="1627533677771" duration="496000" />
+      <workItem from="1627557078909" duration="1194000" />
+      <workItem from="1627729175166" duration="3530000" />
+      <workItem from="1627798965838" duration="1784000" />
+      <workItem from="1627912681972" duration="4196000" />
+      <workItem from="1627969048614" duration="9250000" />
+      <workItem from="1628049954747" duration="12300000" />
+      <workItem from="1628304128406" duration="5431000" />
+      <workItem from="1628400126871" duration="1465000" />
+      <workItem from="1628486832492" duration="8528000" />
+      <workItem from="1628591439843" duration="591000" />
+      <workItem from="1628653545729" duration="3034000" />
+      <workItem from="1628691367648" duration="1557000" />
+      <workItem from="1628737682830" duration="2636000" />
+      <workItem from="1628858884306" duration="2574000" />
+      <workItem from="1628916095451" duration="4070000" />
+      <workItem from="1629028318038" duration="1988000" />
+      <workItem from="1629084461727" duration="7107000" />
+      <workItem from="1629181468454" duration="2516000" />
+      <workItem from="1629204987156" duration="2718000" />
+      <workItem from="1629262332328" duration="23768000" />
+      <workItem from="1629345117948" duration="14588000" />
+      <workItem from="1629438819327" duration="7081000" />
+      <workItem from="1629548060330" duration="4528000" />
+      <workItem from="1629564428558" duration="9008000" />
+      <workItem from="1629631020109" duration="1758000" />
+      <workItem from="1629700546329" duration="6117000" />
+      <workItem from="1629988583175" duration="392000" />
+      <workItem from="1630406421960" duration="2967000" />
+      <workItem from="1630467817867" duration="871000" />
+      <workItem from="1630581267601" duration="1456000" />
+      <workItem from="1630648612456" duration="1748000" />
+      <workItem from="1630755378392" duration="602000" />
+      <workItem from="1632403747775" duration="674000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/FindMedianSortedArrays.java</url>
+          <line>100</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/FindMedianSortedArrays.java</url>
+          <line>103</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/FindMedianSortedArrays.java</url>
+          <line>94</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/AddTwoNum.java</url>
+          <line>28</line>
+          <option name="timeStamp" value="69" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/AddTwoNum.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="72" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/MainApplication.java</url>
+          <line>77</line>
+          <option name="timeStamp" value="77" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/TwoNumSum.java</url>
+          <line>41</line>
+          <option name="timeStamp" value="78" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/TwoNumSum.java</url>
+          <line>43</line>
+          <option name="timeStamp" value="79" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/ReverseKGroup.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="81" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/ReverseKGroup.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="82" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/ReverseKGroup.java</url>
+          <line>20</line>
+          <option name="timeStamp" value="86" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/practice/PracticeDemo.java</url>
+          <line>145</line>
+          <option name="timeStamp" value="100" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/practice/PracticeDemo.java</url>
+          <line>138</line>
+          <option name="timeStamp" value="101" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/practice/PracticeDemo.java</url>
+          <line>136</line>
+          <option name="timeStamp" value="102" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/practice/PracticeDemo.java</url>
+          <line>134</line>
+          <option name="timeStamp" value="103" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/practice/PracticeDemo.java</url>
+          <line>141</line>
+          <option name="timeStamp" value="104" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/practice/PracticeDemo.java</url>
+          <line>135</line>
+          <option name="timeStamp" value="105" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/SpiralOrder.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="106" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/SpiralOrder.java</url>
+          <line>45</line>
+          <option name="timeStamp" value="107" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/SpiralOrder.java</url>
+          <line>55</line>
+          <option name="timeStamp" value="108" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/SpiralOrder.java</url>
+          <line>66</line>
+          <option name="timeStamp" value="109" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/SpiralOrder.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="110" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/practice/MinPathSum.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="115" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/SingleNumbers.java</url>
+          <line>17</line>
+          <option name="timeStamp" value="117" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/SingleNumbers.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="118" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/SingleNumbers.java</url>
+          <line>28</line>
+          <option name="timeStamp" value="119" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/SingleNumbers.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="121" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ConcurrentNotes/src/main/java/com/learn/notes/algorithm/SingleNumbers.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="122" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="com.learn.notes.algorithm.ListNode" memberName="next" />
+      </pinned-members>
+    </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="str.charAt(i)" language="JAVA" />
+        <watch expression="flagStack.firstElement().value" language="JAVA" />
+        <watch expression="div &amp; n" language="JAVA" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
